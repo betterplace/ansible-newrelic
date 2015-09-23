@@ -1,0 +1,20 @@
+---
+- name: Install repo
+  yum:
+    pkg=http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
+    state=installed
+
+- name: Install newrelic-sysmond
+  yum:
+    pkg=newrelic-sysmond
+    state=installed
+  notify: restart newrelic-sysmond
+
+- name: Configure newrelic-sysmond
+  lineinfile: "
+    dest=/etc/newrelic/nrsysmond.cfg
+    state=present
+    regexp='^license_key'
+    line='license_key={{newrelic_license_key}}'
+  "
+  notify: restart newrelic-sysmond
