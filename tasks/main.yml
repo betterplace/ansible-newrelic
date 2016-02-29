@@ -10,11 +10,20 @@
     state=installed
   notify: restart newrelic-sysmond
 
-- name: Configure newrelic-sysmond
+- name: "Configure newrelic-sysmond: license_key"
   lineinfile: "
     dest=/etc/newrelic/nrsysmond.cfg
     state=present
     regexp='^license_key'
     line='license_key={{newrelic_license_key}}'
+  "
+  notify: restart newrelic-sysmond
+
+- name: "Configure newrelic-sysmond: hostname"
+  lineinfile: "
+    dest=/etc/newrelic/nrsysmond.cfg
+    state=present
+    regexp='^hostname'
+    line='hostname={{inventory_hostname}}'
   "
   notify: restart newrelic-sysmond
