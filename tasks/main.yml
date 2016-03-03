@@ -1,8 +1,13 @@
 ---
+- name: Check if newrelic repo is installed
+  stat: path=/etc/yum.repos.d/newrelic.repo
+  register: newrelic_repo
+
 - name: Install repo
   yum:
     pkg=http://download.newrelic.com/pub/newrelic/el5/i386/newrelic-repo-5-3.noarch.rpm
     state=installed
+  when: not newrelic_repo.stat.exists
 
 - name: Install newrelic-sysmond
   yum:
