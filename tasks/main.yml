@@ -23,6 +23,7 @@
     line='license_key={{newrelic_license_key}}'
   "
   notify: restart newrelic-sysmond
+  when: 'newrelic_license_key is defined'
 
 - name: "Configure newrelic-sysmond: hostname"
   lineinfile: "
